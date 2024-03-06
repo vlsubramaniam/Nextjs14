@@ -12,6 +12,7 @@ import profileDefault from '@/assets/images/profile.png';
 
 const Navbar = () => {
   const { data: session } = useSession();
+  const profileImage = session?.user?.image;
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -160,8 +161,10 @@ const Navbar = () => {
                     <span className='sr-only'>Open user menu</span>
                     <Image
                       className='h-8 w-8 rounded-full'
-                      src={profileDefault}
+                      src={profileImage || profileDefault}
                       alt=''
+                      width={40}
+                      height={40}
                     />
                   </button>
                 </div>
@@ -180,6 +183,9 @@ const Navbar = () => {
                       role='menuitem'
                       tabIndex='-1'
                       id='user-menu-item-0'
+                      onClick={() => {
+                        setIsProfileMenuOpen(false);
+                      }}
                     >
                       Your Profile
                     </Link>
@@ -189,10 +195,17 @@ const Navbar = () => {
                       role='menuitem'
                       tabIndex='-1'
                       id='user-menu-item-2'
+                      onClick={() => {
+                        setIsProfileMenuOpen(false);
+                      }}
                     >
                       Saved Properties
                     </Link>
                     <button
+                      onClick={() => {
+                        setIsProfileMenuOpen(false);
+                        signOut();
+                      }}
                       className='block px-4 py-2 text-sm text-gray-700'
                       role='menuitem'
                       tabIndex='-1'
